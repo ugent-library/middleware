@@ -9,6 +9,10 @@ const (
 
 type MethodGetter func(*http.Request) string
 
+// The MethodOverride middleware checks for a HTTP method override in the request and
+// uses it instead of the original method.
+//
+// For security reasons only `POST` can be overridden with `PUT`, `PATCH` or `DELETE`.
 func MethodOverride(getters ...MethodGetter) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -37,11 +41,5 @@ func MethodFromHeader(header string) MethodGetter {
 func MethodFromForm(param string) MethodGetter {
 	return func(r *http.Request) string {
 		return r.FormValue(param)
-	}
-}
-
-func MethodFromQuery(param string) MethodGetter {
-	return func(r *http.Request) string {
-		return r.URL.Query().Get(param)
 	}
 }
