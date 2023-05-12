@@ -19,8 +19,8 @@ handler = middleware.Apply(handler,
 	}),
 	middleware.If(config.Production, middleware.SetRequestID(uuid.NewString),
 	middleware.MethodOverride(
-		middleware.MethodFromHeader(middlewware.MethodHeader),
-		middleware.MethodFromForm(middlewware.MethodParam),
-	)
+		middleware.MethodFromHeader(middleware.MethodHeader),
+		middleware.MethodFromForm(middleware.MethodParam),
+	),
 )
 ```
